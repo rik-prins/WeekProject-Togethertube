@@ -57,8 +57,8 @@ GameObject:
   - component: {fileID: 5397940510498797284}
   - component: {fileID: 2209240922381104675}
   m_Layer: 0
-  m_Name: Cube (3)
-  m_TagString: Untagged
+  m_Name: HookshotMain
+  m_TagString: Hook
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
