@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     private CharacterController m_controller;
 
     [Header( "Movement" )]
+    public float height;
     [SerializeField] private float m_maxSpeed = 10f;
     [SerializeField] private float m_acceleration = 10f;
     [SerializeField] private float m_deceleration = 10f;
@@ -43,6 +44,10 @@ public class PlayerController : MonoBehaviour {
     [Header( "Hooking" )]
     [SerializeField] CameraFov camfov;
     [SerializeField] Camera cam;
+    [SerializeField] MeshRenderer colorChangeTarget;
+    [SerializeField] Material colorInReach;
+    [SerializeField] Material colorOutReach;
+    [SerializeField] private Transform ground;
     private float hookshotSize;
     private Transform hookshotCable;
     private HookState state;
@@ -50,6 +55,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 characterVelocityMomentum;
     private const float NOMRAL_FOV = 60f;
     private const float HOOKING_FOV = 120f;
+
 
 
     private enum HookState {
@@ -63,11 +69,13 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         state = HookState.Normal;
         hookshotCable = GameObject.Find( "HookshotCable" ).transform;
+        colorChangeTarget = GameObject.FindGameObjectWithTag("Hook").GetComponent<MeshRenderer>();
         camfov = cam.GetComponent<CameraFov>();
         hookshotCable.gameObject.SetActive( false );
     }
 
     private void Update() {
+        StartCoroutine( CalculateHeight() );
         switch(state) {
             default:
             case HookState.Normal:
@@ -87,6 +95,12 @@ public class PlayerController : MonoBehaviour {
                 HandleHookshotMovement();
                 break;
         }
+    }
+
+    public IEnumerator CalculateHeight() {
+        yield return new WaitForSeconds( 0.1f );
+        height = Vector3.Distance( transform.position , ground.transform.position );
+        //print( height );
     }
 
 
@@ -225,16 +239,34 @@ public class PlayerController : MonoBehaviour {
         m_controller.slopeLimit = oldSlopeLimit;
     }
 
+    //private void HandleHookshotStart() {
+    //    if(TestInputDownHookShot()) {
+    //        if(Physics.Raycast( m_head.transform.position , m_head.transform.forward , out RaycastHit raycastHit , 15)) {
+    //            if(raycastHit.transform.tag == "Hookable") {
+    //                hookshotPos = raycastHit.point;
+    //                hookshotSize = 0f;
+    //                hookshotCable.gameObject.SetActive( true );
+    //                hookshotCable.localScale = Vector3.zero;
+    //                state = HookState.HookshotThrown;
+    //            }
+    //        }
+    //    }
+    //}
+
     private void HandleHookshotStart() {
-        if(TestInputDownHookShot()) {
-            if(Physics.Raycast( m_head.transform.position , m_head.transform.forward , out RaycastHit raycastHit )) {
-                //raycastHit.point
-                hookshotPos = raycastHit.point;
-                hookshotSize = 0f;
-                hookshotCable.gameObject.SetActive( true );
-                hookshotCable.localScale = Vector3.zero;
-                state = HookState.HookshotThrown;
+        if(Physics.Raycast( m_head.transform.position , m_head.transform.forward , out RaycastHit raycastHit , 20 )) {
+            colorChangeTarget.material = colorInReach;
+            if(TestInputDownHookShot()) {
+                if(raycastHit.transform.tag == "Hookable") {
+                    hookshotPos = raycastHit.point;
+                    hookshotSize = 0f;
+                    hookshotCable.gameObject.SetActive( true );
+                    hookshotCable.localScale = Vector3.zero;
+                    state = HookState.HookshotThrown;
+                }
             }
+        } else {
+            colorChangeTarget.material = colorOutReach;
         }
     }
 
@@ -278,7 +310,7 @@ public class PlayerController : MonoBehaviour {
 
         if(Input.GetKeyDown( KeyCode.Space )) {
             float momentumExtraSpeed = 4f;
-            float jumpSpeed = 30f;
+            float jumpSpeed = 15f;
             characterVelocityMomentum = hookshotDir * hookshotTravelSpeed * momentumExtraSpeed;
             characterVelocityMomentum += Vector3.up * jumpSpeed;
             StopHookShot();

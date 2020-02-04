@@ -7,6 +7,10 @@ TagManager:
   - Ground
   - Teleportable
   - Hookable
+<<<<<<< Updated upstream
+=======
+  - Hook
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
