@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Teleportable
+  - Hookable
   layers:
   - Default
   - TransparentFX
