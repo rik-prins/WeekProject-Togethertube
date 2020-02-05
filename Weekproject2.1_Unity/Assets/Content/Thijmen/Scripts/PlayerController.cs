@@ -316,8 +316,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleHookshotThrown()
     {
-        Debug.LogError("Gehit");
-
         if (!hookGrabSound.isPlaying)
         {
             hookGrabSound.Play();
