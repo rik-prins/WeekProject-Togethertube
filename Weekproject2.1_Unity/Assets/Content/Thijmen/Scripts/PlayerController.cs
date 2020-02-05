@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
     {
         //Transform target;
 
-        if (Physics.Raycast(m_head.transform.position, m_head.transform.forward, out RaycastHit raycastHit, 20))
+        if (Physics.Raycast(m_head.transform.position, m_head.transform.forward, out RaycastHit raycastHit))
         {
             colorChangeTarget.material = colorInReach;
             if (TestInputDownHookShot())
