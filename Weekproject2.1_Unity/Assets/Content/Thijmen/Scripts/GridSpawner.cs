@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridSpawner : MonoBehaviour {
     [SerializeField] private GameObject wallTile;
+    [SerializeField] private PlayerController player;
     [Range( 5 , 100 )]
     [SerializeField]
     int xSize,
@@ -13,20 +14,22 @@ public class GridSpawner : MonoBehaviour {
         SpawnGrid();
     }
 
-    void Update() {
-
+    private void Update() {
+        //if(player.height % 20 == 0) {
+        //    print( player.height );
+        //}
     }
 
     public void SpawnGrid() {
         for(int x = 0; x < xSize; x++) {
             for(int y = 0; y < ySize; y++) {
-                GameObject localCellRight = Instantiate( wallTile , new Vector3( x , y + 0.5f , 13 ) , Quaternion.Euler( 0 , 180 , 0 ) );
+                Instantiate( wallTile , new Vector3( x , y + 0.5f , 13 ) , Quaternion.Euler( 0 , 180 , 0 ) );
             }
         }
 
         for(int x = 0; x < xSize; x++) {
             for(int y = 0; y < ySize; y++) {
-                GameObject localCellLeft = Instantiate( wallTile , new Vector3( x , y + 0.5f , -13 ) , Quaternion.identity );
+                Instantiate( wallTile , new Vector3( x , y + 0.5f , -13 ) , Quaternion.identity );
             }
         }
     }
