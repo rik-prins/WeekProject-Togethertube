@@ -22,12 +22,4 @@ public class WallSpawner : MonoBehaviour
             }
         }
     }
-
-    private void Start()
-    {
-    }
-
-    private void Update()
-    {
-    }
 }
