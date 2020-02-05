@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController m_controller;
+    [SerializeField] private GridSpawner gridSpawner;
 
     [Header("Movement")]
     public float height;
@@ -114,6 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         height = Vector3.Distance(transform.position, ground.transform.position);
+        //gridSpawner.m_ScoreY = height;
     }
 
     public void OnMovement(InputAction.CallbackContext context)
