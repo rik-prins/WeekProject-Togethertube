@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridSpawner : MonoBehaviour {
     [SerializeField] private GameObject wallTile;
     [SerializeField] private PlayerController player;
+    [SerializeField] private float m_ScoreY, m_ScoreCheck;
+    [SerializeField] private int m_Score;
     [Range( 5 , 100 )]
     [SerializeField]
-    int xSize,
+    private int xSize,
         ySize;
 
     void Start() {
@@ -15,9 +18,16 @@ public class GridSpawner : MonoBehaviour {
     }
 
     private void Update() {
-        //if(player.height % 20 == 0) {
-        //    print( player.height );
-        //}
+
+        if(m_ScoreY < player.transform.position.y) {
+            m_ScoreY = player.transform.position.y;
+
+            m_ScoreCheck++;
+            if(m_ScoreCheck % 20 == 0) {
+                m_Score++;
+                print( "Score" );
+            }
+        }
     }
 
     public void SpawnGrid() {
