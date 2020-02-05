@@ -27,6 +27,7 @@ public class Tile : MonoBehaviour {
         if(state == TileTask.Normal) {
             gameObject.transform.localScale = new Vector3( 1 , 1 , Random.Range( 1f , 2f ) );
             transform.GetChild( 0 ).GetComponent<MeshRenderer>().material = Normal;
+            GetComponentInChildren<BoxCollider>().enabled = false;
         }
         if(state == TileTask.Hookable) {
             gameObject.transform.localScale = new Vector3( 1 , 1 , 6 );
