@@ -19,14 +19,18 @@ public class GridSpawner : MonoBehaviour {
 
     private void Update() {
 
-        if(m_ScoreY < player.transform.position.y) {
-            m_ScoreY = player.transform.position.y;
+        //if(m_ScoreY < player.transform.position.y) {
+        //    m_ScoreY = player.transform.position.y;
 
-            m_ScoreCheck++;
-            if(m_ScoreCheck % 20 == 0) {
-                m_Score++;
-                print( "Score" );
-            }
+        //    m_ScoreCheck++;
+        //    if(m_ScoreCheck % 20 == 0) {
+        //        m_Score++;
+        //        print( "Score " + m_ScoreY);
+        //    }
+        //}
+
+        if(m_ScoreY >= 20) {
+            m_ScoreY = 0;
         }
     }
 
