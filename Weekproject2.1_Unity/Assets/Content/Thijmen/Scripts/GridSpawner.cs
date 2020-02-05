@@ -26,10 +26,9 @@ public class GridSpawner : MonoBehaviour {
             m_ScoreY = player.transform.position.y;
 
             m_ScoreCheck++;
-            if(m_ScoreCheck % 6 == 0) {
+            if(m_ScoreCheck % 5 == 0) {
                 m_Score++;
                 SpawnGridIngame( (int)player.transform.position.y + ySize );
-                Debug.Log( "spawned" );
             }
         }
 
