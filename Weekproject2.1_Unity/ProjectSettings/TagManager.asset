@@ -4,13 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
   - Teleportable
-  - Hookable
-<<<<<<< Updated upstream
-=======
   - Hook
->>>>>>> Stashed changes
+  - Hookable
   layers:
   - Default
   - TransparentFX
@@ -20,8 +16,8 @@ TagManager:
   - UI
   - 
   - 
-  - FPS Objects
-  - Ground
+  - 
+  - 
   - 
   - 
   - 

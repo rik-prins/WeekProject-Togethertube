@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         state = HookState.Normal;
         hookshotCable = GameObject.Find( "HookshotCable" ).transform;
-        colorChangeTarget = GameObject.FindGameObjectWithTag("Hook").GetComponent<MeshRenderer>();
+        colorChangeTarget = GameObject.FindGameObjectWithTag( "Hook" ).GetComponent<MeshRenderer>();
         camfov = cam.GetComponent<CameraFov>();
         hookshotCable.gameObject.SetActive( false );
     }
@@ -100,7 +100,6 @@ public class PlayerController : MonoBehaviour {
     public IEnumerator CalculateHeight() {
         yield return new WaitForSeconds( 0.1f );
         height = Vector3.Distance( transform.position , ground.transform.position );
-        //print( height );
     }
 
 
@@ -254,6 +253,8 @@ public class PlayerController : MonoBehaviour {
     //}
 
     private void HandleHookshotStart() {
+        //Transform target;
+
         if(Physics.Raycast( m_head.transform.position , m_head.transform.forward , out RaycastHit raycastHit , 20 )) {
             colorChangeTarget.material = colorInReach;
             if(TestInputDownHookShot()) {
@@ -263,6 +264,10 @@ public class PlayerController : MonoBehaviour {
                     hookshotCable.gameObject.SetActive( true );
                     hookshotCable.localScale = Vector3.zero;
                     state = HookState.HookshotThrown;
+
+                    //Extra Mechanic
+                    //target = raycastHit.transform;
+                    //target.transform.localScale = new Vector3( 3 , 0.5f , transform.localScale.z );
                 }
             }
         } else {
