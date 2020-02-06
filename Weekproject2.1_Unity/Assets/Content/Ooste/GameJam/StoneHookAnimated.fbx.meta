@@ -44,8 +44,8 @@ ModelImporter:
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 38
-      wrapMode: 0
+      lastFrame: 37.5
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0

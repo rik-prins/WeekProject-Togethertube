@@ -29,7 +29,7 @@ public class Tile : MonoBehaviour
     {
         if (state == TileTask.Normal)
         {
-            //transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
             gameObject.transform.localScale = new Vector3(1, 1, Random.Range(1f, 2f));
             int random = Random.Range(0, 2);
 
@@ -47,9 +47,9 @@ public class Tile : MonoBehaviour
         }
         if (state == TileTask.Hookable)
         {
-            //transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(true);
             gameObject.transform.localScale = new Vector3(1, 1, 6);
-            transform.GetChild(1).GetComponent<MeshRenderer>().material = Hookable;
+            //transform.GetChild(1).GetComponent<MeshRenderer>().material = Hookable;
             transform.GetChild(1).tag = "Hookable";
         }
     }
