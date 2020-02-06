@@ -198,6 +198,11 @@ PrefabInstance:
       propertyPath: m_CullingType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5716681864270162303, guid: 108d16424c8727840b8211e9da8722e5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 108d16424c8727840b8211e9da8722e5,
         type: 3}
       propertyPath: m_LocalPosition.x

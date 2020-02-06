@@ -3,104 +3,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridSpawner : MonoBehaviour
-{
+public class GridSpawner : MonoBehaviour {
     [SerializeField] private GameObject wallTile;
     [SerializeField] private PlayerController player;
     [SerializeField] private float m_ScoreY, m_ScoreCheck;
     [SerializeField] private int m_Score;
 
-    [Range(5, 500)]
+    [Range( 5 , 500 )]
     [SerializeField]
     private int xSize,
         ySize;
 
     private GameObject newRow;
-    private int rowIndex;
+    private int rowIndexL = 0;
+    private int rowIndexR = 0;
 
-    private void Start()
-    {
-        rowIndex = ySize;
+    private int rowIndexL22 = 0;
+    private int rowIndexR22 = 0;
+    private void Start() {
         SpawnGridGameStart();
     }
 
-    private void Update()
-    {
-        if (m_ScoreY < player.transform.position.y)
-        {
+    private void Update() {
+        if(m_ScoreY <= player.transform.position.y && player.transform.position.y > 150 ) {
             m_ScoreY = player.transform.position.y;
 
             m_ScoreCheck++;
-            if (m_ScoreCheck % 1 == 0)
-            {
+            if(m_ScoreCheck % 10 == 0) {
                 m_Score++;
-                print("scorecheck " + m_ScoreCheck);
-                print("height " + player.height);
-                SpawnGridIngame((int)player.transform.position.y + ySize);
+                rowIndexR++;
+                rowIndexL++;
+                DestroyRow();
             }
         }
 
-        //if(m_ScoreY >= 20) {
-        //    print( "test" + m_ScoreY );
-        //    m_ScoreY = 0;
-        //}
-    }
-
-    public void SpawnGridGameStart()
-    {
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                Instantiate(wallTile, new Vector3(x, y + 0.5f, 13), Quaternion.Euler(0, 180, 0));
-            }
-        }
-
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                Instantiate(wallTile, new Vector3(x, y + 0.5f, -13), Quaternion.identity);
-            }
+        if(rowIndexL >= ySize) {
+            rowIndexL = 0;
+            rowIndexR = 0;
         }
     }
 
-    public void SpawnGridIngame(int _y)
-    {
-        GameObject row = new GameObject();
-        row.name = "row " + rowIndex;
-        for (int x = 0; x < xSize; x++)
-        {
-            for (_y = 0; _y < 1; _y++)
-            {
-                newRow = Instantiate(wallTile, new Vector3(x, rowIndex + _y, -13), Quaternion.identity);
-                newRow.transform.SetParent(row.transform);
+    public void SpawnGridGameStart() {
+        for(int y = 0; y < ySize; y++) {
+            GameObject rowLeft = new GameObject();
+            rowLeft.name = "rowLeft " + rowIndexL22;
+            rowIndexL22++;
+            for(int x = 0; x < xSize; x++) {
+                newRow = Instantiate( wallTile , new Vector3( x , y + 0.5f , 13 ) , Quaternion.Euler( 0 , 180 , 0 ) );
+                newRow.transform.SetParent( rowLeft.transform );
             }
         }
 
-        for (int x = 0; x < xSize; x++)
-        {
-            for (_y = 0; _y < 1; _y++)
-            {
-                newRow = Instantiate(wallTile, new Vector3(x, rowIndex + _y, 13), Quaternion.Euler(0, 180, 0));
-                newRow.transform.SetParent(row.transform);
-                if (rowIndex >= 200)
-                {
-                    DestroyRow();
-                }
+        for(int y = 0; y < ySize; y++) {
+            GameObject rowRight = new GameObject();
+            rowRight.name = "rowRight " + rowIndexR22;
+            rowIndexR22++;
+            for(int x = 0; x < xSize; x++) {
+                newRow = Instantiate( wallTile , new Vector3( x , y + 0.5f , -13 ) , Quaternion.identity );
+                newRow.transform.SetParent( rowRight.transform );
             }
         }
-        rowIndex++;
     }
+    
+    private void DestroyRow() {
+        GameObject movableObjL = GameObject.Find( "rowLeft " + (rowIndexL - 1) );
+        movableObjL.transform.position = new Vector3( movableObjL.transform.position.x , movableObjL.transform.position.y + ySize , movableObjL.transform.position.z );
 
-    private void DestroyRow()
-    {
-        int destroyable;
-        destroyable = rowIndex - 100;
-        GameObject destroyer = GameObject.Find("row " + destroyable);
-
-        //Destroy(destroyer);
-        //destroyer.SetActive(false);
-        //GameObject.Find( "row " + destroyable ).SetActiveRecursively( false );
+        GameObject movableObjR = GameObject.Find( "rowRight " + (rowIndexR - 1) );
+        movableObjR.transform.position = new Vector3( movableObjR.transform.position.x , movableObjR.transform.position.y + ySize , movableObjR.transform.position.z );
     }
 }
