@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     private CharacterController m_controller;
+
     [SerializeField] private GridSpawner gridSpawner;
 
     [Header("Movement")]
@@ -46,6 +47,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float m_slideAccelerateSpeed;
 
     private float m_slideSpeed;
+
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
 
     [Header("Hooking")]
     [SerializeField] private CameraFov camfov;
@@ -95,6 +99,8 @@ public class PlayerController : MonoBehaviour
                 Look(m_lookInput);
                 Move(m_movementInput);
                 HandleHookshotStart();
+                animator.SetBool("isThrowing", false);
+                animator.SetBool("isPulling", false);
                 break;
 
             case HookState.HookshotThrown:
@@ -102,11 +108,15 @@ public class PlayerController : MonoBehaviour
                 Look(m_lookInput);
                 Move(m_movementInput);
                 HandleHookshotThrown();
+
+                animator.SetBool("isThrowing", true);
                 break;
 
             case HookState.HookshotFlyingPlayer:
                 Look(m_lookInput);
                 HandleHookshotMovement();
+                animator.SetBool("isPulling", true);
+
                 break;
         }
     }
@@ -248,6 +258,8 @@ public class PlayerController : MonoBehaviour
         float oldSlopeLimit = m_controller.slopeLimit;
         float oldStepOffset = m_controller.stepOffset;
 
+        animator.SetBool("isJumping", true);
+
         m_controller.slopeLimit = 90f;
         m_controller.stepOffset = 0.01f;
         m_jumping = true;
@@ -271,6 +283,8 @@ public class PlayerController : MonoBehaviour
         m_jumping = false;
         m_controller.stepOffset = oldStepOffset;
         m_controller.slopeLimit = oldSlopeLimit;
+
+        animator.SetBool("isJumping", false);
     }
 
     //private void HandleHookshotStart() {
@@ -353,6 +367,10 @@ public class PlayerController : MonoBehaviour
         float hookshotTravelSpeedMultiplier = 1.5f;
         float reachedHookshotTarget = 1f;
 
+        if (hookGrabSound.isPlaying)
+        {
+            hookGrabSound.Stop();
+        }
         if (!hookRopeSound.isPlaying)
         {
             hookRopeSound.Play();
