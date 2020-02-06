@@ -8,21 +8,22 @@ public class CameraFov : MonoBehaviour
     private float targetFov;
     private float fov;
 
-    void Awake()
+    private void Awake()
     {
         playerCam = GetComponent<Camera>();
         targetFov = playerCam.fieldOfView;
         fov = targetFov;
     }
 
-    void Update()
+    private void Update()
     {
         float fovSpeed = 4f;
-        fov = Mathf.Lerp( fov , targetFov , Time.deltaTime * fovSpeed );
+        fov = Mathf.Lerp(fov, targetFov, Time.deltaTime * fovSpeed);
         playerCam.fieldOfView = fov;
     }
 
-    public void SetCameraFov(float targetFov) {
+    public void SetCameraFov(float targetFov)
+    {
         this.targetFov = targetFov;
     }
 }
