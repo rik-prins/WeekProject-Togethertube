@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridSpawner : MonoBehaviour {
     [SerializeField] private GameObject wallTile;
     [SerializeField] private PlayerController player;
     [SerializeField] private float m_ScoreY, m_ScoreCheck;
     [SerializeField] private int m_Score;
+    [SerializeField] private Text m_ScoreText;
 
     [Range( 5 , 500 )]
     [SerializeField]
@@ -25,6 +27,7 @@ public class GridSpawner : MonoBehaviour {
     }
 
     private void Update() {
+        m_ScoreText.text = "M: " + player.transform.position.y.ToString("0");
         if(m_ScoreY <= player.transform.position.y && player.transform.position.y > 150 ) {
             m_ScoreY = player.transform.position.y;
 
