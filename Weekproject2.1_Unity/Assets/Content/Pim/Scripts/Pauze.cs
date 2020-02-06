@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pauze : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private bool isPaused;
 
+    SceneManager sceneManager;
     void Start()
     {
         
@@ -26,6 +28,11 @@ public class Pauze : MonoBehaviour
         else
         {
             DeActivateMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Pime");
         }
     }
 
