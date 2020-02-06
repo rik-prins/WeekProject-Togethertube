@@ -334,7 +334,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: d9ea823b8f8fb1d4b83b9960a7945261,
         type: 3}
       propertyPath: m_Name
-      value: cube
+      value: RopeHook
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9ea823b8f8fb1d4b83b9960a7945261, type: 3}

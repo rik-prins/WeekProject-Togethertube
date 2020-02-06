@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform ground;
     [SerializeField] private AudioSource hookGrabSound;
     [SerializeField] private AudioSource hookRopeSound;
+    private MeshRenderer ropeRenderer;
     private float hookshotSize;
     private Transform hookshotCable;
     private HookState state;
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         state = HookState.Normal;
         hookshotCable = GameObject.Find("HookshotCable").transform;
+        ropeRenderer = GameObject.Find("RopeHook").GetComponent<MeshRenderer>();
         colorChangeTarget = GameObject.FindGameObjectWithTag("Hook").GetComponent<MeshRenderer>();
         camfov = cam.GetComponent<CameraFov>();
         hookshotCable.gameObject.SetActive(false);
@@ -101,6 +103,7 @@ public class PlayerController : MonoBehaviour
                 HandleHookshotStart();
                 animator.SetBool("isThrowing", false);
                 animator.SetBool("isPulling", false);
+                ropeRenderer.enabled = false;
                 break;
 
             case HookState.HookshotThrown:
@@ -108,7 +111,6 @@ public class PlayerController : MonoBehaviour
                 Look(m_lookInput);
                 Move(m_movementInput);
                 HandleHookshotThrown();
-
                 animator.SetBool("isThrowing", true);
                 break;
 
@@ -116,7 +118,7 @@ public class PlayerController : MonoBehaviour
                 Look(m_lookInput);
                 HandleHookshotMovement();
                 animator.SetBool("isPulling", true);
-
+                ropeRenderer.enabled = true;
                 break;
         }
     }
@@ -258,8 +260,6 @@ public class PlayerController : MonoBehaviour
         float oldSlopeLimit = m_controller.slopeLimit;
         float oldStepOffset = m_controller.stepOffset;
 
-        animator.SetBool("isJumping", true);
-
         m_controller.slopeLimit = 90f;
         m_controller.stepOffset = 0.01f;
         m_jumping = true;
@@ -283,8 +283,6 @@ public class PlayerController : MonoBehaviour
         m_jumping = false;
         m_controller.stepOffset = oldStepOffset;
         m_controller.slopeLimit = oldSlopeLimit;
-
-        animator.SetBool("isJumping", false);
     }
 
     //private void HandleHookshotStart() {

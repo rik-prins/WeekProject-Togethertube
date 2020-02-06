@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour
+{
+    private TileTask state;
 
-    TileTask state;
-    public enum TileTask {
+    public enum TileTask
+    {
         Hookable = 0,
         Normal
     }
@@ -14,29 +16,45 @@ public class Tile : MonoBehaviour {
     private Material Normal,
         Hookable;
 
-    [Range( 0 , 100 )]
+    [Range(0, 100)]
     [SerializeField] private int hookableSpawnrate;
 
-    void Start() {
-        state = (Random.Range( 0 , hookableSpawnrate ) == 0) ? TileTask.Hookable : TileTask.Normal;
+    private void Start()
+    {
+        state = (Random.Range(0, hookableSpawnrate) == 0) ? TileTask.Hookable : TileTask.Normal;
         ExecuteEnumState();
     }
 
-    private void ExecuteEnumState() {
+    private void ExecuteEnumState()
+    {
+        if (state == TileTask.Normal)
+        {
+            //transform.GetChild(0).gameObject.SetActive(true);
+            gameObject.transform.localScale = new Vector3(1, 1, Random.Range(1f, 2f));
+            int random = Random.Range(0, 2);
 
-        if(state == TileTask.Normal) {
-            gameObject.transform.localScale = new Vector3( 1 , 1 , Random.Range( 1f , 2f ) );
-            transform.GetChild( 0 ).GetComponent<MeshRenderer>().material = Normal;
+            if (random == 2)
+            {
+                transform.rotation = new Quaternion(0, 90, 0, 0);
+            }
+            if (random == 1)
+            {
+                transform.rotation = new Quaternion(0, 0, 180, 0);
+            }
+
+            transform.GetChild(0).GetComponent<MeshRenderer>().material = Normal;
             GetComponentInChildren<BoxCollider>().enabled = false;
         }
-        if(state == TileTask.Hookable) {
-            gameObject.transform.localScale = new Vector3( 1 , 1 , 6 );
-            transform.GetChild( 0 ).GetComponent<MeshRenderer>().material = Hookable;
-            transform.GetChild( 0 ).tag = "Hookable";
+        if (state == TileTask.Hookable)
+        {
+            //transform.GetChild(1).gameObject.SetActive(true);
+            gameObject.transform.localScale = new Vector3(1, 1, 6);
+            transform.GetChild(1).GetComponent<MeshRenderer>().material = Hookable;
+            transform.GetChild(1).tag = "Hookable";
         }
     }
 
-    void Update() {
-
+    private void Update()
+    {
     }
 }
