@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 characterVelocityMomentum;
     private const float NOMRAL_FOV = 60f;
     private const float HOOKING_FOV = 120f;
+    private bool allowedToHook = true;
 
     private float fallTimer = 3f;
 
@@ -143,6 +144,12 @@ public class PlayerController : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public IEnumerator AllowToHook()
+    {
+        yield return new WaitForSeconds(0.5f);
+        allowedToHook = true;
     }
 
     public IEnumerator CalculateHeight()
@@ -367,6 +374,8 @@ public class PlayerController : MonoBehaviour
         {
             state = HookState.HookshotFlyingPlayer;
             camfov.SetCameraFov(HOOKING_FOV);
+            allowedToHook = false;
+            StartCoroutine(AllowToHook());
         }
     }
 
@@ -403,7 +412,7 @@ public class PlayerController : MonoBehaviour
             StopHookShot();
         }
 
-        if (TestInputDownHookShot())
+        if (TestInputDownHookShot() && allowedToHook)
         {
             StopHookShot();
         }
