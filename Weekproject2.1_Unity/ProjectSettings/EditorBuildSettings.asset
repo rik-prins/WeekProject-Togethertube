@@ -8,9 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Content/Thijmen/Scenes/Thijmen Main.unity
-    guid: 0c6387ec3286cf049be6ade7609453c2
+  - enabled: 1
+    path: Assets/Content/Pim/Scenes/MainMenu.unity
+    guid: 0596b2c4e37f54e4e9aca8d60190170f
   - enabled: 1
     path: Assets/Content/Thijmen/Rike2.unity
     guid: 85e6551906d5b79448bb5e4f1459b5b6

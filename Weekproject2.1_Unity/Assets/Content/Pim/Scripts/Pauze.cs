@@ -9,9 +9,9 @@ public class Pauze : MonoBehaviour
 
     private bool isPaused;
 
-    SceneManager sceneManager;
+    private SceneManager sceneManager;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -29,16 +29,17 @@ public class Pauze : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("Pime");
+            SceneManager.LoadScene(1);
         }
     }
 
-    void ActivateMenu()
+    private void ActivateMenu()
     {
         Time.timeScale = 0;
         AudioListener.pause = true;
         pauseMenuUI.SetActive(true);
     }
+
     public void DeActivateMenu()
     {
         Time.timeScale = 1;
@@ -46,5 +47,4 @@ public class Pauze : MonoBehaviour
         pauseMenuUI.SetActive(false);
         isPaused = false;
     }
-
 }

@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
     [Header("Animations")]
     [SerializeField] private Animator animator;
 
+    [SerializeField] private Animator UIAnimator;
+    [SerializeField] private Animator UIAnimator2;
+
     [Header("Hooking")]
     [SerializeField] private CameraFov camfov;
 
@@ -72,7 +75,11 @@ public class PlayerController : MonoBehaviour
     private const float NOMRAL_FOV = 60f;
     private const float HOOKING_FOV = 120f;
 
-    private float timer = 2f;
+    private float fallTimer = 3f;
+
+    private float gameovertimer = 0.8f;
+
+    private bool gameOver;
 
     private enum HookState
     {
@@ -92,6 +99,7 @@ public class PlayerController : MonoBehaviour
         colorChangeTarget = GameObject.FindGameObjectWithTag("Hook").GetComponent<MeshRenderer>();
         camfov = cam.GetComponent<CameraFov>();
         hookshotCable.gameObject.SetActive(false);
+        //UIAnimator2.SetBool("isOpening", false);
     }
 
     private void Update()
@@ -126,7 +134,15 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
-        FallDetection();
+        if (!gameOver)
+        {
+            FallDetection();
+        }
+
+        if (gameOver)
+        {
+            GameOver();
+        }
     }
 
     public IEnumerator CalculateHeight()
@@ -309,7 +325,7 @@ public class PlayerController : MonoBehaviour
     {
         //Transform target;
 
-        if (Physics.Raycast(m_head.transform.position, m_head.transform.forward, out RaycastHit raycastHit, 100))
+        if (Physics.Raycast(m_head.transform.position, m_head.transform.forward, out RaycastHit raycastHit, 25))
         {
             colorChangeTarget.material = colorInReach;
             if (TestInputDownHookShot())
@@ -417,7 +433,7 @@ public class PlayerController : MonoBehaviour
 
     private bool TestInputDownHookShot()
     {
-        return Input.GetKeyDown(KeyCode.E);
+        return Input.GetKeyDown(KeyCode.E) || Input.GetMouseButton(0);
     }
 
     //private void OnTriggerEnter(Collider other) {
@@ -441,17 +457,19 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 15f))
         {
-            timer = 2f;
+            fallTimer = 3f;
         }
         else
         {
             if (state != HookState.HookshotFlyingPlayer && state != HookState.HookshotThrown)
             {
-                timer -= 1f * Time.deltaTime;
-                if (timer <= 0f)
+                fallTimer -= 1f * Time.deltaTime;
+                if (fallTimer <= 0f)
                 {
                     print("Fall Detected");
-                    GameOver();
+
+                    gameOver = true;
+                    //GameOver();
                 }
             }
         }
@@ -459,6 +477,12 @@ public class PlayerController : MonoBehaviour
 
     private void GameOver()
     {
-        SceneManager.LoadScene(1);
+        UIAnimator.SetBool("isClosing", true);
+
+        gameovertimer -= 1f * Time.deltaTime;
+        if (gameovertimer < 0)
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

@@ -5,20 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class CoronaOverbodigScript : MonoBehaviour
 {
-
     private void Start()
     {
-        
     }
 
     private void Update()
     {
-        
     }
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Pime");
+        SceneManager.LoadScene(1);
     }
 
     public void Quit()
