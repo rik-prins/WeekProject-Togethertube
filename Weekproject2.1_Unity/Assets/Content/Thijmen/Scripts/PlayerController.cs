@@ -491,6 +491,8 @@ public class PlayerController : MonoBehaviour
         gameovertimer -= 1f * Time.deltaTime;
         if (gameovertimer < 0)
         {
+            UIAnimator.SetBool("isClosing", false);
+
             SceneManager.LoadScene(1);
         }
     }
